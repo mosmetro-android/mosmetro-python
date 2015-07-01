@@ -4,6 +4,7 @@
 import requests
 import re
 import json
+import datetime
 from HTMLParser import HTMLParser
 
 # Массив данных для POST запросов
@@ -75,14 +76,27 @@ def connect():
  
 
 def main():
+ print(datetime.datetime.now())
+
  # "Пингуем" роутер
  if try_connect("http://1.1.1.1/login.html"):
   for counter in range(3):
    # HTTPS не позволяет провайдеру влезть с редиректом
    if try_connect("https://wtfismyip.com/text"):
-    break
+    if counter == 0:
+     print("Already connected")
+    else:
+     print("Connected")
     
-   connect()
+    break
+   
+   try:
+    connect()
+   except requests.exceptions.ConnectionError:
+    print("Connection failed")
+ 
+ else:
+  print("Wrong network")
 
 if __name__ == "__main__":
  main()
