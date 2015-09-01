@@ -38,15 +38,16 @@ def connect():
  
  # Вытаскиваем назначение редиректа
  url_auth = re.search(
-  'http:[^\"]*',
+  'https:[^\"]*',
   page_vmetro.text
  ).group(0)
  
  # Запрашиваем страницу с кнопкой авторизации
  page_auth = requests.get(
- 	url_auth,
- 	headers=headers,
- 	cookies=page_vmetro.cookies
+  url_auth,
+  headers=headers,
+  cookies=page_vmetro.cookies,
+  verify=False
  )
  headers.update({'referer': page_auth.url})
  
@@ -59,7 +60,8 @@ def connect():
   url_auth,
   data=post_data,
   cookies=page_auth.cookies,
-  headers=headers
+  headers=headers,
+  verify=False
  )
  headers.update({'referer': page_postauth.url})
  
@@ -68,10 +70,11 @@ def connect():
  
  # Отправляем окончательный запрос
  page_router = requests.post(
- 	'http://1.1.1.1/login.html',
- 	data=post_data,
- 	cookies=page_postauth.cookies,
- 	headers=headers
+  'http://1.1.1.1/login.html',
+  data=post_data,
+  cookies=page_postauth.cookies,
+  headers=headers,
+  verify=False
  )
  
 
