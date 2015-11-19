@@ -53,7 +53,7 @@ def connect():
  
  # Парсим поля скрытой формы
  parser = FormInputParser()
- parser.feed(page_auth.text)
+ parser.feed(re.search("<body>.*?</body>", page_auth.content, re.DOTALL).group(0))
  
  # Отправляем полученную форму
  page_postauth = requests.post(
