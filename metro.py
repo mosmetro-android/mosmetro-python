@@ -38,7 +38,7 @@ def connect():
  
  # Вытаскиваем назначение редиректа
  url_auth = re.search(
-  'https:[^\"]*',
+  'https?:[^\"]*',
   page_vmetro.text
  ).group(0)
  
