@@ -51,21 +51,6 @@ def connect():
         cookies=page_vmetro.cookies,
         verify=False
         )
-    headers.update({'referer': page_auth.url})
-
-    # Парсим поля скрытой формы
-    parser = FormInputParser()
-    parser.feed(re.search("<body>.*?</body>",
-                          page_auth.content, re.DOTALL).group(0))
-
-    # Отправляем полученную форму
-    page_postauth = requests.post(
-        url_auth,
-        data=post_data,
-        cookies=page_auth.cookies,
-        headers=headers,
-        verify=False
-        )
 
 
 def main():
