@@ -63,20 +63,6 @@ def connect():
   headers=headers,
   verify=False
  )
- headers.update({'referer': page_postauth.url})
- 
- # Парсим поля второй скрытой формы
- parser.feed(page_postauth.text)
- 
- # Отправляем окончательный запрос
- page_router = requests.post(
-  'http://1.1.1.1/login.html',
-  data=post_data,
-  cookies=page_postauth.cookies,
-  headers=headers,
-  verify=False
- )
- 
 
 def main():
  print(datetime.datetime.now())
