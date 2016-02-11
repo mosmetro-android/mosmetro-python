@@ -3,8 +3,7 @@
 
 import requests
 import re
-import json
-import datetime
+from datetime import datetime
 from HTMLParser import HTMLParser
 
 # Массив данных для POST запросов
@@ -14,7 +13,7 @@ post_data = dict()
 # Парсер полей input из HTML
 class FormInputParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
-        if (tag == 'input'):
+        if tag == 'input':
             tag_params = dict(attrs)
             post_data[tag_params['name']] = tag_params['value']
 
@@ -24,9 +23,9 @@ def try_connect(address):
     try:
         requests.get(address, timeout=5)
     except requests.exceptions.ConnectionError:
-        return(False)
+        return False
     else:
-        return(True)
+        return True
 
 
 # Функция авторизации
@@ -39,22 +38,15 @@ def connect():
     headers.update({'referer': page_vmetro.url})
 
     # Вытаскиваем назначение редиректа
-    url_auth = re.search(
-        'https?:[^\"]*',
-        page_vmetro.text
-        ).group(0)
+    url_auth = re.search('https?:[^\"]*', page_vmetro.text).group(0)
 
     # Запрашиваем страницу с кнопкой авторизации
-    page_auth = requests.get(
-        url_auth,
-        headers=headers,
-        cookies=page_vmetro.cookies,
-        verify=False
-        )
+    requests.get(url_auth, headers=headers,
+                 cookies=page_vmetro.cookies, verify=False)
 
 
-def main():
-    print(datetime.datetime.now())
+if __name__ == '__main__':
+    print(datetime.now())
 
     # "Пингуем" роутер
     if try_connect("http://1.1.1.1/login.html"):
@@ -73,6 +65,3 @@ def main():
         print("Connection failed")
     else:
         print("Wrong network")
-
-if __name__ == "__main__":
-    main()
