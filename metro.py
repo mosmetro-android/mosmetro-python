@@ -71,9 +71,10 @@ if __name__ == '__main__':
                     print("Connected")
                 break
 
-    try:
-        connect()
-    except requests.exceptions.ConnectionError:
-        print("Connection failed")
+            try:
+                connect()
+            except requests.exceptions.ConnectionError:
+                print("Connection failed")
+
     else:
         print("Wrong network")
