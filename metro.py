@@ -43,18 +43,9 @@ def connect(url_auth):
                           page_auth.content, re.DOTALL).group(0))
     
     # Отправляем полученную форму
-    page_postauth = requests.post(url_auth, data=post_data,
-                                  cookies=page_auth.cookies,
-                                  headers=headers, verify=False)
-    
-    # Парсим поля второй формы (необходимость неизвестна, но так работает)
-    parser.feed(re.search("<body>.*?</body>",
-                          page_auth.content, re.DOTALL).group(0))
-
-    # Отправляем вторую полученную форму
-    page_postauth2 = requests.post(url_auth, data=post_data,
-                                   cookies=page_auth.cookies,
-                                   headers=headers, verify=False)
+    requests.post(url_auth, data=post_data,
+                  cookies=page_auth.cookies,
+                  headers=headers, verify=False)
 
 if __name__ == '__main__':
     print(datetime.now())
