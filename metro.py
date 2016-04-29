@@ -36,6 +36,7 @@ def connect(url_auth):
                              cookies=page_vmetro.cookies,
                              verify=False)
     headers.update({'referer': page_auth.url})
+    print(page_auth.content)
 
     # Парсим поля скрытой формы
     parser = FormInputParser()
