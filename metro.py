@@ -16,6 +16,7 @@ post_data = dict()
 # Массив header'ов
 headers = {}
 
+
 # Парсер полей input из HTML
 class FormInputParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
@@ -65,7 +66,8 @@ if __name__ == '__main__':
                 headers.update({'referer': page_vmetro.url})
 
                 # Вытаскиваем назначение редиректа
-                url_auth = re.search('https?:[^\"]*', page_vmetro.text).group(0)
+                url_auth = re.search('https?:[^\"]*',
+                                     page_vmetro.text).group(0)
 
             except requests.exceptions.ConnectionError:
                 if counter == 0:
