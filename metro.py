@@ -4,7 +4,12 @@
 import requests
 import re
 from datetime import datetime
-from HTMLParser import HTMLParser
+import sys
+
+if sys.version_info > (3, 0):
+    from html.parser import HTMLParser
+else:
+    from HTMLParser import HTMLParser
 
 # Массив данных для POST запросов
 post_data = dict()
@@ -42,7 +47,7 @@ def connect(url_auth):
     parser = FormInputParser()
     parser.feed(re.search("<body>.*?</body>",
                           page_auth.content, re.DOTALL).group(0))
-    
+
     # Отправляем полученную форму
     requests.post(url_auth, data=post_data,
                   cookies=page_auth.cookies,
@@ -61,7 +66,7 @@ if __name__ == '__main__':
 
                 # Вытаскиваем назначение редиректа
                 url_auth = re.search('https?:[^\"]*', page_vmetro.text).group(0)
-            
+
             except requests.exceptions.ConnectionError:
                 if counter == 0:
                     print("Already connected")
