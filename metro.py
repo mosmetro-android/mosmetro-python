@@ -59,7 +59,5 @@ if __name__ == '__main__':
     with requests.Session() as session:
         p = Provider.find(session)
 
-        if p is True:
-            sys.exit(0)
-        elif p is False:
-            sys.exit(1)
+        if p is True or p is False:
+            sys.exit(p)
