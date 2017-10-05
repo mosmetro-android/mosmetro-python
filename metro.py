@@ -30,7 +30,7 @@ class Provider(object):
 
         if r is True:
             print("Already connected")
-            return
+            return True
 
         for provider in Provider.__subclasses__():
             if (provider.match(r)):
