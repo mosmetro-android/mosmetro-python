@@ -6,7 +6,7 @@ from datetime import datetime
 
 import requests
 
-class Provider():
+class Provider(object):
     def __init__(self, session):
         self.session = session;
 
@@ -32,6 +32,26 @@ class Provider():
             print("Already connected")
             return
 
+        for provider in Provider.__subclasses__():
+            if (provider.match(r)):
+                print("Detected provider: " + provider.__name__)
+                return provider(session);
+
+        print("Wrong network")
+        return False
+
+class MosMetroV2(Provider):
+    def __init__(self, session):
+        self.session = session
+
+    @staticmethod
+    def match(response):
+        if response.status_code not in (301, 302):
+            return False
+
+        redirect = response.headers.get("Location")
+
+        return ".wi-fi.ru" in redirect and "login.wi-fi.ru" not in redirect
 
 if __name__ == '__main__':
     print(datetime.now())
@@ -41,3 +61,5 @@ if __name__ == '__main__':
 
         if p is True:
             sys.exit(0)
+        elif p is False:
+            sys.exit(1)
