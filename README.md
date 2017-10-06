@@ -10,9 +10,10 @@
 
 ## Зависимости
 
-* python 2.x
-* <a href="https://pypi.python.org/pypi/requests">requests</a>
-* <a href="https://pypi.python.org/pypi/pyquery">pyquery</a>
+* Python 2.x или 3.x
+* [requests](https://pypi.python.org/pypi/requests)
+* [pyquery](https://pypi.python.org/pypi/pyquery)
+* [fake-useragent](https://pypi.python.org/pypi/fake-useragent) (необязательно)
 
 ### Установка через pip
 

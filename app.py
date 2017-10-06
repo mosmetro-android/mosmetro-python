@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+import os
+import inspect
 import sys
-
 from datetime import datetime
 
 if sys.version_info > (3, 0):
@@ -12,6 +13,16 @@ else:
 
 import requests
 from pyquery import PyQuery
+
+try:
+    from fake_useragent import UserAgent
+except ImportError:
+    UserAgent = None
+    pass
+
+
+ROOT = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
 
 class Provider(object):
     def __init__(self, session):
@@ -103,6 +114,13 @@ if __name__ == '__main__':
     print(datetime.now())
 
     with requests.Session() as session:
+        if UserAgent:
+            session.headers['User-Agent'] = UserAgent(
+                path=ROOT + "/res/user-agent.json"
+            ).random
+        else:
+            print("Random User-Agent disabled. Please install 'fake-useragent'.")
+
         p = Provider.find(session)
 
         if p is True or p is False:

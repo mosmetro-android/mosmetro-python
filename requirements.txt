@@ -1,2 +1,3 @@
 requests
 pyquery
+fake_useragent==0.1.7
