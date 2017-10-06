@@ -2,8 +2,13 @@
 # -*- coding: UTF-8 -*-
 
 import sys
-from urlparse import urlparse, urljoin, parse_qs
+
 from datetime import datetime
+
+if sys.version_info > (3, 0):
+    from urllib.parse import urlparse, urljoin, parse_qs
+else:
+    from urlparse import urlparse, urljoin, parse_qs
 
 import requests
 from pyquery import PyQuery
