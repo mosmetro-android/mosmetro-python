@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
 import os
@@ -110,7 +110,7 @@ class MosMetroV2(Provider):
 
         return ".wi-fi.ru" in redirect and "login.wi-fi.ru" not in redirect
 
-if __name__ == '__main__':
+def main(args=None):
     print(datetime.now())
 
     with requests.Session() as session:
@@ -132,3 +132,6 @@ if __name__ == '__main__':
         else:
             print("Connection failed :(")
             sys.exit(1)
+
+if __name__ == '__main__':
+    main()
