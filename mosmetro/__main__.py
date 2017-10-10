@@ -78,36 +78,32 @@ class MosMetroV2(Provider):
             return False
 
         print("Following initial redirect")
-        r = session.get(redirect.geturl(), allow_redirects=False)
+        r = self.session.get(redirect.geturl(), allow_redirects=False)
 
         if r.status_code in (301, 302) and "auto_auth" in r.headers.get("Location"):
             print("You probably have been temporary banned.")
             return False
 
         print("Following JavaScript redirect")
-        r = session.get(urljoin(redirect.geturl(), "/auth?segment=" + segment))
+        r = self.session.get(urljoin(redirect.geturl(), "/auth?segment=" + segment))
 
         # Parsing CSRF token
         csrf = PyQuery(r.content)("meta[name=csrf-token]").attr("content")
-        session.headers["X-CSRF-Token"] = csrf
+        self.session.headers["X-CSRF-Token"] = csrf
 
         # Setting additional Cookies (probably required)
-        requests.Session().cookies.set("afVideoPassed", "0")
+        self.session.cookies.set("afVideoPassed", "0")
 
         print("Sending auth request")
-        r = session.get(urljoin(redirect.geturl(),
-                                "/auth/init?mode=0&segment=" + segment))
+        r = self.session.post(urljoin(redirect.geturl(),
+                                      "/auth/init?mode=0&segment=" + segment))
 
         print("Checking internet connection")
-        return Provider.generate_204(session) is True
+        return Provider.generate_204(self.session) is True
 
     @staticmethod
     def match(response):
-        if response.status_code not in (301, 302):
-            return False
-
         redirect = response.headers.get("Location")
-
         return ".wi-fi.ru" in redirect and "login.wi-fi.ru" not in redirect
 
 def main(args=None):
