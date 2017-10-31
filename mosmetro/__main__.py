@@ -65,7 +65,13 @@ class MosMetroV2(Provider):
 
     def connect(self):
         print("Parsing initial redirect")
-        redirect = urlparse(self.response.headers.get("Location"))
+        location = self.response.headers.get("Location")
+
+        # TODO: Incorrect meta refresh value
+        if "ru?segment" in location:
+            location = location.replace("ru?", "ru/?").replace(': ', '')
+
+        redirect = urlparse(location)
 
         if "segment" in redirect.query:
             segment = parse_qs(redirect.query)["segment"][0]
