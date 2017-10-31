@@ -84,7 +84,8 @@ class MosMetroV2(Provider):
             return False
 
         print("Following initial redirect")
-        r = self.session.get(redirect.geturl(), allow_redirects=False)
+        # TODO: SSL check fails on mcc
+        r = self.session.get(redirect.geturl(), allow_redirects=False, verify=False)
 
         if r.status_code in (301, 302) and "auto_auth" in r.headers.get("Location"):
             print("You probably have been temporary banned.")
