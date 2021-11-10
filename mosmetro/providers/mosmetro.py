@@ -5,6 +5,7 @@ from furl import furl
 from requests import Response
 from .base import Provider
 from ..session import session as s
+from ..gen204 import Gen204
 from ..utils import safeget
 
 
@@ -35,10 +36,12 @@ class AuthWifiRuMsk(Provider):
         mac = url.args.get('client_mac') or url.args.get('mac')
 
         # Follow first redirect
+        print('Opening auth page')
         res = s.get(url)
         s.headers['referer'] = str(url)
 
         # Get auth page
+        print('Starting session')
         url.args.clear()
         url.args['segment'] = segment
         if mac:
@@ -52,6 +55,7 @@ class AuthWifiRuMsk(Provider):
             print(f'Post-auth redirect: {after_auth}')
 
         # Send login form
+        print('Initializing connection')
         url.path = self.PATHS['init']
         url.args.clear()
         res = s.post(url, data={'mode': 0, 'segment': segment})
@@ -64,12 +68,13 @@ class AuthWifiRuMsk(Provider):
             return False
 
         # Checking auth state
+        print('Checking connection')
         url.path = self.PATHS['check']
         res = s.get(url)
         res_data = res.json()
         print(res_data)
 
-        return True
+        return Gen204.check().is_connected
 
 
 class AuthWifiRuSpb(AuthWifiRuMsk):

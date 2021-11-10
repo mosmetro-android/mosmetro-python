@@ -1,3 +1,4 @@
+from requests import Response
 from typing import Dict, List, Any, Type
 
 def safeget(data: Dict[Any, Any], *keys, default: Any = None) -> Any:
@@ -25,3 +26,12 @@ def all_subclasses(cls) -> List[Type]:
         res.extend(all_subclasses(subcls))
 
     return res
+
+
+def response_to_str(res: Response) -> str:
+    return '\n'.join([
+        f'{res.status_code} {res.reason}',
+        '\n'.join(f'{name}: {value}' for name, value in res.headers.items()),
+        '',
+        res.text
+    ])
