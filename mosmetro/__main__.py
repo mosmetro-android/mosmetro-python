@@ -16,7 +16,7 @@ def main(args=None):
 
     provider = match_provider(res204.response)
 
-    if p.run() and Gen204.check().is_connected:
+    if provider.run() and Gen204.check().is_connected:
         print("Connected successfully! :3")
         sys.exit(0)
     else:
