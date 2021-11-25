@@ -1,12 +1,11 @@
 import sys
 from datetime import datetime
 
-from .providers import match as match_provider
 from .gen204 import Gen204
-from .utils import response_to_str
+from .connect import connect
 
 
-def main(args=None):
+def main():
     print(datetime.now())
 
     print('Checking connection...')
@@ -16,16 +15,7 @@ def main(args=None):
         print('Already connected')
         sys.exit(0)
 
-    try:
-        provider = match_provider(res204.response)
-    except Exception as ex:
-        print('----')
-        print(response_to_str(res204.response))
-        print('----')
-        print(ex)
-        sys.exit(1)
-
-    if provider.run():
+    if connect(res204.response):
         print("Connected successfully! :3")
         sys.exit(0)
     else:

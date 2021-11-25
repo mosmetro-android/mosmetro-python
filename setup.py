@@ -10,7 +10,7 @@ setup(name='mosmetro',
       license='GNU GPLv3',
       url='https://github.com/mosmetro-android/mosmetro-python',
 
-      install_requires=['requests', 'furl', 'user_agent'],
+      install_requires=['requests', 'furl', 'user_agent', 'beautifulsoup4'],
 
       packages=find_packages(),
       include_package_data=True,

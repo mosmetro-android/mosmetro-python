@@ -1,3 +1,4 @@
 requests
 furl
 user_agent
+beautifulsoup4

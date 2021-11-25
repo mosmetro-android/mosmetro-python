@@ -3,9 +3,8 @@ __ALL__ = ['AuthWifiRu', 'AuthWifiRuMsk', 'AuthWifiRuSpb']
 
 from furl import furl
 from requests import Response
-from .base import Provider
+from .base import Provider, Result, Redirect
 from ..session import session as s
-from ..gen204 import Gen204
 from ..utils import safeget
 
 
@@ -28,7 +27,7 @@ class AuthWifiRuMsk(Provider):
         url = furl(response.headers.get('location'))
         return url.host == 'auth.wi-fi.ru' and url.path in ['', '/', '/new']
 
-    def run(self) -> bool:
+    def run(self) -> Result:
         url = furl(self.response.headers.get('location'))
 
         segment = url.args.get('segment') or 'metro'
@@ -65,7 +64,7 @@ class AuthWifiRuMsk(Provider):
         error_code = safeget(res_data, 'auth_error_code', default='')
         if error_code.startswith('err_device_not_identified'):
             print('Error: Device is not registered. Please go to https://wi-fi.ru')
-            return False
+            return Result(False)
 
         # Checking auth state
         print('Checking connection')
@@ -74,7 +73,10 @@ class AuthWifiRuMsk(Provider):
         res_data = res.json()
         print(res_data)
 
-        return Gen204.check().is_connected
+        if after_auth:
+            return Redirect(after_auth)
+        else:
+            return Result(True)
 
 
 class AuthWifiRuSpb(AuthWifiRuMsk):

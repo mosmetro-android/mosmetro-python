@@ -89,7 +89,7 @@ class Gen204:
                     rel_http = Gen204.request("http", Gen204.URL_RELIABLE)
                 except RequestException:
                     rel_http = None
-                
+
                 if rel_http and rel_http.status_code != 204:
                     return Gen204Res(rel_http)  # false positive
             else:
