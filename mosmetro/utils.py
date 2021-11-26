@@ -72,7 +72,7 @@ PATTERN_META_REDIR = re.compile('^[0-9]+[;,] ?(URL=|url=)?[\'"]?(.*?)[\'"]?$')
 
 def meta_redirect(res: Response) -> Union[str, None]:
     soup = BS(res.content, features="html.parser")
-    tag = soup.find('meta', attrs={'http-equiv': 'refresh'})
+    tag = soup.find('meta', attrs={'http-equiv': re.compile('refresh', re.I)})
 
     if not tag or not isinstance(tag, Tag):
         return None
