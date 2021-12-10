@@ -2,11 +2,16 @@ import sys
 from datetime import datetime
 
 from .gen204 import Gen204
+from .providers import Provider
+from .utils import all_subclasses
 from .connect import connect
 
 
 def main():
     print(datetime.now())
+
+    print('Loaded providers: ' +
+          ', '.join(p.__name__ for p in all_subclasses(Provider)))
 
     print('Checking connection...')
     res204 = Gen204.check()
