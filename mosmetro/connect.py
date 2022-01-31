@@ -1,8 +1,7 @@
 from requests.models import Response
 
-from mosmetro.providers.base import Redirect
-
 from .providers import match as match_provider
+from .providers.base import Redirect
 from .gen204 import Gen204
 from .utils import any_redirect, response_to_str
 from .session import session as s
