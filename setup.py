@@ -3,7 +3,8 @@
 from setuptools import setup, find_packages
 
 setup(name='mosmetro',
-      version='1.0',
+      use_scm_version=True,
+      setup_requires=['setuptools_scm'],
 
       author='Dmitry Karikh',
       author_email='the.dr.hax@gmail.com',
