@@ -2,3 +2,6 @@ __pycache__
 /.py
 /.vscode
 /.eggs
+/build
+/dist
+*.egg-info
