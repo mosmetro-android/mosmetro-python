@@ -5,13 +5,13 @@ from furl import furl
 from requests import Response
 from .base import Provider, Result, Redirect
 from ..session import session as s
-from ..utils import safeget
+from ..utils import any_redirect, safeget
 
 
 class AuthWifiRu(Provider):
     @staticmethod
     def match(response: Response):
-        url = furl(response.headers.get('location'))
+        url = furl(any_redirect(response))
         return url.host == 'auth.wi-fi.ru' and url.path == '/auth'
 
 
@@ -24,7 +24,7 @@ class AuthWifiRuMsk(Provider):
 
     @staticmethod
     def match(response: Response):
-        url = furl(response.headers.get('location'))
+        url = furl(any_redirect(response))
         return url.host == 'auth.wi-fi.ru' and url.path in ['', '/', '/new']
 
     def run(self) -> Result:
@@ -88,5 +88,5 @@ class AuthWifiRuSpb(AuthWifiRuMsk):
 
     @staticmethod
     def match(response: Response):
-        url = furl(response.headers.get('location'))
+        url = furl(any_redirect(response))
         return url.host == 'auth.wi-fi.ru' and url.path == '/spb/'
