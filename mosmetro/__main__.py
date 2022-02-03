@@ -22,6 +22,10 @@ def main():
         print('Already connected')
         sys.exit(0)
 
+    if not res204.response:
+        print('Error: Unable to get initial redirect')
+        sys.exit(1)
+
     if connect(res204.response):
         print("Connected successfully! :3")
         sys.exit(0)
