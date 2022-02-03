@@ -9,8 +9,7 @@ with open('README.md', 'r') as fi:
 
 setup(
     name='mosmetro',
-    use_scm_version=True,
-    setup_requires=['setuptools_scm'],
+    version='0.1',
 
     author='Dmitry Karikh',
     author_email='the.dr.hax@gmail.com',
