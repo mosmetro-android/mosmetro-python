@@ -9,7 +9,7 @@ with open('README.md', 'r') as fi:
 
 setup(
     name='mosmetro',
-    version='0.1.1+2',
+    version='0.1.1+3',
 
     author='Dmitry Karikh',
     author_email='the.dr.hax@gmail.com',

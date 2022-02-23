@@ -5,7 +5,7 @@ from furl import furl
 from requests import Response
 from .base import Provider, Result, Redirect
 from ..session import session as s
-from ..utils import any_redirect, safeget
+from ..utils import any_redirect, merge_urls, safeget
 
 
 class AuthWifiRu(Provider):
@@ -28,7 +28,7 @@ class AuthWifiRuMsk(Provider):
         return url.host == 'auth.wi-fi.ru' and url.path in ['', '/', '/new']
 
     def run(self) -> Result:
-        url = furl(self.response.headers.get('location'))
+        url = furl(any_redirect(self.response))
 
         segment = url.args.get('segment') or 'metro'
         # client_mac has higher priority
@@ -52,6 +52,7 @@ class AuthWifiRuMsk(Provider):
                              'redirectUrl', 'afterAuth')
         if after_auth:
             print(f'Post-auth redirect: {after_auth}')
+            after_auth = merge_urls(self.response.request.url, after_auth)
 
         # Send login form
         print('Initializing connection')
